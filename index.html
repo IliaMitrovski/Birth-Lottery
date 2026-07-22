@@ -4,17 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Birth Lottery — Abschluss einer interaktiven Rauminstallation über Herkunft als Zufall.">
-  <meta name="theme-color" content="#f7f7f4">
+  <meta name="theme-color" content="#111111">
   <title>Birth Lottery</title>
+
+  <link rel="stylesheet" href="https://use.typekit.net/twp7thz.css">
 
   <style>
     :root {
       --paper: #f7f7f4;
       --ink: #111111;
-      --muted: #6b6b66;
-      --line: #cbcbc5;
       --red: rgb(224, 31, 38);
-      --content: 24rem;
+      --content: 380px;
+      --font-mono: "ocr-b", "OCR B Std", "Courier New", ui-monospace, monospace;
     }
 
     *,
@@ -29,28 +30,89 @@
 
     body {
       margin: 0;
-      background: var(--paper);
+      padding: 2.5rem 1rem;
+      background: var(--ink);
       color: var(--ink);
-      font-family: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 0.95rem;
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
       line-height: 1.55;
-    }
-
-    .wrap {
-      width: min(calc(100% - 2.5rem), var(--content));
-      margin-inline: auto;
+      letter-spacing: 0.02em;
     }
 
     h1, p, blockquote, dl, dd, dt {
       margin: 0;
     }
 
+    /* The receipt */
+    .paper {
+      position: relative;
+      width: min(100%, var(--content));
+      margin-inline: auto;
+      background: var(--paper);
+      box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.45);
+      padding-block: 1.5rem;
+    }
+
+    .paper::before,
+    .paper::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(135deg, var(--ink) 6px, transparent 6px),
+        linear-gradient(45deg, var(--ink) 6px, transparent 6px);
+      background-size: 12px 12px;
+      background-position: left top;
+      background-repeat: repeat-x;
+    }
+
+    .paper::before {
+      top: -1px;
+    }
+
+    .paper::after {
+      bottom: -1px;
+      transform: rotate(180deg);
+    }
+
+    .wrap {
+      width: min(calc(100% - 2.5rem), 100%);
+      margin-inline: auto;
+    }
+
     section {
-      padding-block: 2.75rem;
+      padding-block: 2.25rem;
     }
 
     section + section {
-      border-top: 1px dashed var(--line);
+      border-top: 1px dashed var(--ink);
+    }
+
+    .heading {
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+
+    .logo {
+      display: block;
+      height: 2.75rem;
+      width: auto;
+      max-width: 60%;
+      margin: 0 auto 1.5rem;
+      object-fit: contain;
+    }
+
+    .framed {
+      color: var(--red);
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     /* Role visibility: default = neutral (no JS, no/invalid param) */
@@ -75,25 +137,25 @@
       display: none;
     }
 
-    /* 1. Quote */
+    /* 1. Zitat */
     .quote-section {
-      min-height: 100vh;
+      min-height: 85vh;
       display: flex;
       align-items: center;
     }
 
     blockquote {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      line-height: 1.4;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
     }
 
     cite {
       display: block;
       margin-top: 1.5rem;
       font-style: normal;
-      font-size: 0.85rem;
-      color: var(--muted);
+      font-size: 0.8rem;
     }
 
     /* 2. Auflösung */
@@ -104,36 +166,21 @@
       gap: 1rem;
     }
 
-    .odds-line .value {
-      color: var(--red);
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
     .odds-line + .odds-line {
-      margin-top: 0.4rem;
+      margin-top: 0.5rem;
     }
 
     .odds-note {
-      margin-top: 1rem;
-      color: var(--muted);
-      font-size: 0.85rem;
+      margin-top: 1.1rem;
+      font-size: 0.78rem;
     }
 
     /* 3. Konzepttext */
     .concept p {
-      max-width: 34ch;
+      max-width: 20rem;
     }
 
     /* 4. Abrechnung */
-    .ledger-title {
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-    }
-
     .ledger-item + .ledger-item {
       margin-top: 1.1rem;
     }
@@ -156,69 +203,69 @@
 
     .ledger-row.sub {
       margin-top: 0.15rem;
-      color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     .ledger-note {
       margin-top: 0.75rem;
-      color: var(--muted);
-      font-size: 0.78rem;
+      font-size: 0.72rem;
     }
 
     .ratio {
       margin-top: 2.25rem;
       padding-top: 1.75rem;
-      border-top: 1px dashed var(--line);
+      border-top: 1px dashed var(--ink);
       text-align: center;
     }
 
-    .ratio-value {
-      color: var(--red);
-      font-size: 2.75rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .ratio .framed {
+      font-size: 2.25rem;
       line-height: 1;
     }
 
     .ledger-total {
       margin-top: 1.5rem;
       padding-top: 1.25rem;
-      border-top: 1px dashed var(--line);
+      border-top: 1px dashed var(--ink);
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       gap: 0.75rem;
-      font-weight: 700;
     }
 
     /* 5. Fakten */
     .fact + .fact {
       margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed var(--ink);
+    }
+
+    .fact-line {
+      color: var(--red);
+      font-weight: 700;
     }
 
     .fact-source {
-      margin-top: 0.35rem;
-      color: var(--muted);
-      font-size: 0.78rem;
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
     }
 
     /* 6. Credits */
-    .credits {
-      padding-block: 2rem 3rem;
-      border-top: 1px dashed var(--line);
+    #credits {
+      padding-block: 2.25rem;
+      border-top: 1px dashed var(--ink);
     }
 
     .credits-list {
       margin-top: 1.25rem;
       padding: 0;
       list-style: none;
-      color: var(--muted);
-      font-size: 0.82rem;
+      text-align: center;
+      font-size: 0.8rem;
     }
 
     .credits-list li + li {
-      margin-top: 0.25rem;
+      margin-top: 0.3rem;
     }
   </style>
 </head>
@@ -231,101 +278,109 @@
     })();
   </script>
 
-  <main id="main-content">
+  <div class="paper">
+    <main id="main-content">
 
-    <!-- 1. Zitat -->
-    <section class="quote-section" id="zitat">
+      <img class="logo" src="assets/logo.svg" alt="Birth Lottery">
+
+      <!-- 1. Zitat -->
+      <section class="quote-section" id="zitat">
+        <div class="wrap">
+          <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
+          <cite>— Stephan Lessenich</cite>
+        </div>
+      </section>
+
+      <!-- 2. Auflösung der Lotterie -->
+      <section id="ergebnis">
+        <div class="wrap">
+          <div data-nord>
+            <p class="odds-line"><span>Zuweisung</span><span class="framed">Globaler Norden</span></p>
+            <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="framed">### XX % ###</span></p>
+            <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Norden lebt.</p>
+          </div>
+          <div data-sued>
+            <p class="odds-line"><span>Zuweisung</span><span class="framed">Globaler Süden</span></p>
+            <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="framed">### XX % ###</span></p>
+            <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Süden lebt.</p>
+          </div>
+          <div data-neutral>
+            <p class="odds-line"><span>Globaler Norden</span><span class="framed">XX %</span></p>
+            <p class="odds-line"><span>Globaler Süden</span><span class="framed">XX %</span></p>
+            <p class="odds-note">Die Zuweisung erfolgt nach einer Wahrscheinlichkeit, die der realen weltweiten Bevölkerungsverteilung entspricht.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Konzepttext -->
+      <section class="concept" id="konzept">
+        <div class="wrap">
+          <p>Die interaktive Rauminstallation Birth Lottery beschäftigt sich mit Herkunft als Zufall. Ein Knopfdruck weist zu, der Rest folgt daraus. Sie fragt, wer für die Privilegien bezahlt, die wir täglich in Anspruch nehmen.</p>
+        </div>
+      </section>
+
+      <!-- 4. Die Abrechnung -->
+      <section id="abrechnung">
+        <div class="wrap">
+          <p class="heading">Die Abrechnung</p>
+
+          <div class="ledger-item">
+            <p class="ledger-row"><span class="label">Deutschland, Mindestlohn 2026</span><span class="value">13,90 €/h</span></p>
+            <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">28 €</span></p>
+          </div>
+
+          <div class="ledger-item">
+            <p class="ledger-row"><span class="label">Bangladesch, Textil-Mindestlohn</span><span class="value">0,50 €/h</span></p>
+            <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">1 €</span></p>
+            <p class="ledger-note">(ca. 105 €/Monat bei ca. 208 Arbeitsstunden)</p>
+          </div>
+
+          <div class="ratio">
+            <p class="framed">### 28 : 1 ###</p>
+          </div>
+
+          <p class="ledger-total" data-nord>
+            <span>Von Ihnen getragener Aufpreis</span><span class="framed">### 0,00 € ###</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- 5. Fakten -->
+      <section id="fakten">
+        <div class="wrap">
+          <article class="fact">
+            <p class="fact-line">Mindestlohn Textilindustrie Bangladesch: 12.500 Taka / Monat ≈ 105 €</p>
+            <p>Gefordert: 23.000 Taka</p>
+            <p class="fact-source">Kampagne für Saubere Kleidung, 2026</p>
+          </article>
+          <article class="fact">
+            <p class="fact-line">Lohnanteil am Verkaufspreis: 1–3 %</p>
+            <p>T-Shirt für 10 € → 10–30 Cent</p>
+            <p class="fact-source">Kampagne für Saubere Kleidung</p>
+          </article>
+          <article class="fact">
+            <p class="fact-line">Leben alle wie Deutschland: 2,8 Erden</p>
+            <p>Erdüberlastungstag DE: 10. Mai 2026</p>
+            <p class="fact-source">Global Footprint Network / WWF, 2026</p>
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 6. Credits -->
+    <footer id="credits">
       <div class="wrap">
-        <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
-        <cite>— Stephan Lessenich</cite>
+        <p class="heading">Team</p>
+        <ul class="credits-list">
+          <li>Ilia Mitrovski</li>
+          <li>Fidelis Müller</li>
+          <li>Veronika Melnyk</li>
+          <li>Thees Grosch</li>
+          <li>Lanique Knus</li>
+        </ul>
       </div>
-    </section>
-
-    <!-- 2. Auflösung der Lotterie -->
-    <section id="ergebnis">
-      <div class="wrap">
-        <div data-nord>
-          <p class="odds-line"><span>Zuweisung</span><span class="value">Globaler Norden</span></p>
-          <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="value">XX %</span></p>
-          <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Norden lebt.</p>
-        </div>
-        <div data-sued>
-          <p class="odds-line"><span>Zuweisung</span><span class="value">Globaler Süden</span></p>
-          <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="value">XX %</span></p>
-          <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Süden lebt.</p>
-        </div>
-        <div data-neutral>
-          <p class="odds-line"><span>Globaler Norden</span><span class="value">XX %</span></p>
-          <p class="odds-line"><span>Globaler Süden</span><span class="value">XX %</span></p>
-          <p class="odds-note">Die Zuweisung erfolgt nach einer Wahrscheinlichkeit, die der realen weltweiten Bevölkerungsverteilung entspricht.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Konzepttext -->
-    <section class="concept" id="konzept">
-      <div class="wrap">
-        <p>Die interaktive Rauminstallation Birth Lottery beschäftigt sich mit Herkunft als Zufall. Ein Knopfdruck weist zu, der Rest folgt daraus. Sie fragt, wer für die Privilegien bezahlt, die wir täglich in Anspruch nehmen.</p>
-      </div>
-    </section>
-
-    <!-- 4. Die Abrechnung -->
-    <section id="abrechnung">
-      <div class="wrap">
-        <p class="ledger-title">Die Abrechnung</p>
-
-        <div class="ledger-item">
-          <p class="ledger-row"><span class="label">Deutschland, Mindestlohn 2026</span><span class="value">13,90 €/h</span></p>
-          <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">28 €</span></p>
-        </div>
-
-        <div class="ledger-item">
-          <p class="ledger-row"><span class="label">Bangladesch, Textil-Mindestlohn</span><span class="value">0,50 €/h</span></p>
-          <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">1 €</span></p>
-          <p class="ledger-note">(ca. 105 €/Monat bei ca. 208 Arbeitsstunden)</p>
-        </div>
-
-        <div class="ratio">
-          <p class="ratio-value">28 : 1</p>
-        </div>
-
-        <p class="ledger-total" data-nord>
-          <span>Von Ihnen getragener Aufpreis</span><span>0,00 €</span>
-        </p>
-      </div>
-    </section>
-
-    <!-- 5. Fakten -->
-    <section id="fakten">
-      <div class="wrap">
-        <article class="fact">
-          <p>[Platzhalter: ein Satz mit einer Tatsache]</p>
-          <p class="fact-source">Quelle · Jahr</p>
-        </article>
-        <article class="fact">
-          <p>[Platzhalter: ein Satz mit einer Tatsache]</p>
-          <p class="fact-source">Quelle · Jahr</p>
-        </article>
-        <article class="fact">
-          <p>[Platzhalter: ein Satz mit einer Tatsache]</p>
-          <p class="fact-source">Quelle · Jahr</p>
-        </article>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- 6. Credits -->
-  <footer class="credits">
-    <div class="wrap">
-      <ul class="credits-list">
-        <li>Ilia Mitrovski</li>
-        <li>Fidelis Müller</li>
-        <li>Veronika Melnyk</li>
-        <li>Thees Grosch</li>
-        <li>Lanique Knus</li>
-      </ul>
-    </div>
-  </footer>
+    </footer>
+  </div>
 </body>
 </html>
