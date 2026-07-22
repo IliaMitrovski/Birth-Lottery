@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Birth Privilege ist eine interaktive Installation über ungleiche Startbedingungen.">
+  <meta name="description" content="Birth Lottery — Abschluss einer interaktiven Rauminstallation über Herkunft als Zufall.">
   <meta name="theme-color" content="#f7f7f4">
-  <title>Birth Privilege</title>
+  <title>Birth Lottery</title>
 
   <style>
     :root {
-      --background: #f7f7f4;
-      --ink: #0a0a0a;
       --paper: #f7f7f4;
-      --text: #111111;
+      --ink: #111111;
       --muted: #6b6b66;
-      --muted-on-ink: #9a9a97;
+      --line: #cbcbc5;
       --red: rgb(224, 31, 38);
-      --content: 44rem;
-      --focus: rgb(224, 31, 38);
+      --content: 24rem;
     }
 
     *,
@@ -27,43 +24,16 @@
     }
 
     html {
-      scroll-behavior: smooth;
       -webkit-text-size-adjust: 100%;
     }
 
     body {
       margin: 0;
       background: var(--paper);
-      color: var(--text);
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 1rem;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    a {
-      color: var(--red);
-    }
-
-    a:focus-visible,
-    summary:focus-visible {
-      outline: 0.2rem solid var(--focus);
-      outline-offset: 0.2rem;
-    }
-
-    .skip-link {
-      position: fixed;
-      inset: 0.75rem auto auto 0.75rem;
-      z-index: 100;
-      padding: 0.7rem 0.9rem;
-      background: var(--text);
-      color: #fff;
-      transform: translateY(-180%);
-    }
-
-    .skip-link:focus {
-      transform: translateY(0);
+      color: var(--ink);
+      font-family: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.55;
     }
 
     .wrap {
@@ -71,127 +41,290 @@
       margin-inline: auto;
     }
 
-    h1, h2, p, blockquote, figure {
+    h1, p, blockquote, dl, dd, dt {
       margin: 0;
     }
 
     section {
-      padding-block: clamp(3rem, 12vw, 7rem);
+      padding-block: 2.75rem;
     }
 
-    /* Quote */
+    section + section {
+      border-top: 1px dashed var(--line);
+    }
+
+    /* Role visibility: default = neutral (no JS, no/invalid param) */
+    [data-nord],
+    [data-sued] {
+      display: none;
+    }
+
+    body[data-rolle="nord"] [data-nord] {
+      display: block;
+    }
+
+    body[data-rolle="nord"] [data-neutral] {
+      display: none;
+    }
+
+    body[data-rolle="sued"] [data-sued] {
+      display: block;
+    }
+
+    body[data-rolle="sued"] [data-neutral] {
+      display: none;
+    }
+
+    /* 1. Quote */
     .quote-section {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      position: relative;
-    }
-
-    .quote-mark {
-      color: var(--red);
-      font-size: clamp(4rem, 14vw, 8rem);
-      font-weight: 900;
-      line-height: 0.6;
-      margin-bottom: 1rem;
     }
 
     blockquote {
-      font-size: clamp(1.9rem, 6vw, 3.6rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      max-width: 22ch;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.4;
     }
 
     cite {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: 2rem;
+      display: block;
+      margin-top: 1.5rem;
       font-style: normal;
-      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* 2. Auflösung */
+    .odds-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .odds-line .value {
+      color: var(--red);
       font-weight: 700;
-      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .odds-line + .odds-line {
+      margin-top: 0.4rem;
+    }
+
+    .odds-note {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* 3. Konzepttext */
+    .concept p {
+      max-width: 34ch;
+    }
+
+    /* 4. Abrechnung */
+    .ledger-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--muted);
+      margin-bottom: 1.25rem;
     }
 
-    cite::before {
-      content: "";
-      width: 2.5rem;
-      height: 2px;
-      background: var(--red);
+    .ledger-item + .ledger-item {
+      margin-top: 1.1rem;
     }
 
-    /* Concept */
-    .concept-section {
-      background: var(--ink);
-      color: var(--paper);
+    .ledger-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
     }
 
-    .concept-title {
-      font-size: clamp(2.2rem, 8vw, 4rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
+    .ledger-row .label {
+      flex: 1;
     }
 
-    .concept-section p {
-      max-width: 38rem;
-      color: var(--muted-on-ink);
-      font-size: clamp(1.05rem, 3vw, 1.3rem);
-      line-height: 1.45;
+    .ledger-row .value {
+      white-space: nowrap;
+      text-align: right;
     }
 
-    .concept-section p + p {
-      margin-top: 1rem;
-    }
-
-    /* Contact */
-    .contact {
-      padding-block: 1.5rem 2rem;
+    .ledger-row.sub {
+      margin-top: 0.15rem;
       color: var(--muted);
-      font-size: 0.75rem;
-      border-top: 1px solid #dddddb;
+      font-size: 0.85rem;
     }
 
-    .contact p {
-      margin: 0;
+    .ledger-note {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 0.78rem;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
+    .ratio {
+      margin-top: 2.25rem;
+      padding-top: 1.75rem;
+      border-top: 1px dashed var(--line);
+      text-align: center;
+    }
+
+    .ratio-value {
+      color: var(--red);
+      font-size: 2.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .ledger-total {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px dashed var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* 5. Fakten */
+    .fact + .fact {
+      margin-top: 1.5rem;
+    }
+
+    .fact-source {
+      margin-top: 0.35rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    /* 6. Credits */
+    .credits {
+      padding-block: 2rem 3rem;
+      border-top: 1px dashed var(--line);
+    }
+
+    .credits-list {
+      margin-top: 1.25rem;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .credits-list li + li {
+      margin-top: 0.25rem;
     }
   </style>
 </head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <script>
+    (function () {
+      var rolle = new URLSearchParams(window.location.search).get("rolle");
+      document.body.dataset.rolle = (rolle === "nord" || rolle === "sued") ? rolle : "neutral";
+    })();
+  </script>
 
   <main id="main-content">
-    <section class="quote-section" id="quote">
+
+    <!-- 1. Zitat -->
+    <section class="quote-section" id="zitat">
       <div class="wrap">
-        <p class="quote-mark" aria-hidden="true">&ldquo;</p>
         <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
         <cite>— Stephan Lessenich</cite>
       </div>
     </section>
 
-    <section class="concept-section" id="concept">
+    <!-- 2. Auflösung der Lotterie -->
+    <section id="ergebnis">
       <div class="wrap">
-        <h1 class="concept-title">Birth Privilege</h1>
-        <p>Birth Privilege ist eine interaktive Installation über ungleiche Startbedingungen. Herkunft, Familie und Zugang zu Ressourcen entscheiden mit, welche Chancen offenstehen — noch bevor die eigene Anstrengung überhaupt beginnt.</p>
-        <p>Die Installation stellt physische und digitale Arbeit gegenüber, um sichtbar zu machen, wie vergleichbarer Einsatz sehr unterschiedlich bewertet werden kann.</p>
+        <div data-nord>
+          <p class="odds-line"><span>Zuweisung</span><span class="value">Globaler Norden</span></p>
+          <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="value">XX %</span></p>
+          <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Norden lebt.</p>
+        </div>
+        <div data-sued>
+          <p class="odds-line"><span>Zuweisung</span><span class="value">Globaler Süden</span></p>
+          <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="value">XX %</span></p>
+          <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Süden lebt.</p>
+        </div>
+        <div data-neutral>
+          <p class="odds-line"><span>Globaler Norden</span><span class="value">XX %</span></p>
+          <p class="odds-line"><span>Globaler Süden</span><span class="value">XX %</span></p>
+          <p class="odds-note">Die Zuweisung erfolgt nach einer Wahrscheinlichkeit, die der realen weltweiten Bevölkerungsverteilung entspricht.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Konzepttext -->
+    <section class="concept" id="konzept">
+      <div class="wrap">
+        <p>Die interaktive Rauminstallation Birth Lottery beschäftigt sich mit Herkunft als Zufall. Ein Knopfdruck weist zu, der Rest folgt daraus. Sie fragt, wer für die Privilegien bezahlt, die wir täglich in Anspruch nehmen.</p>
+      </div>
+    </section>
+
+    <!-- 4. Die Abrechnung -->
+    <section id="abrechnung">
+      <div class="wrap">
+        <p class="ledger-title">Die Abrechnung</p>
+
+        <div class="ledger-item">
+          <p class="ledger-row"><span class="label">Deutschland, Mindestlohn 2026</span><span class="value">13,90 €/h</span></p>
+          <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">28 €</span></p>
+        </div>
+
+        <div class="ledger-item">
+          <p class="ledger-row"><span class="label">Bangladesch, Textil-Mindestlohn</span><span class="value">0,50 €/h</span></p>
+          <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">1 €</span></p>
+          <p class="ledger-note">(ca. 105 €/Monat bei ca. 208 Arbeitsstunden)</p>
+        </div>
+
+        <div class="ratio">
+          <p class="ratio-value">28 : 1</p>
+        </div>
+
+        <p class="ledger-total" data-nord>
+          <span>Von Ihnen getragener Aufpreis</span><span>0,00 €</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. Fakten -->
+    <section id="fakten">
+      <div class="wrap">
+        <article class="fact">
+          <p>[Platzhalter: ein Satz mit einer Tatsache]</p>
+          <p class="fact-source">Quelle · Jahr</p>
+        </article>
+        <article class="fact">
+          <p>[Platzhalter: ein Satz mit einer Tatsache]</p>
+          <p class="fact-source">Quelle · Jahr</p>
+        </article>
+        <article class="fact">
+          <p>[Platzhalter: ein Satz mit einer Tatsache]</p>
+          <p class="fact-source">Quelle · Jahr</p>
+        </article>
       </div>
     </section>
 
   </main>
 
-  <footer class="contact">
+  <!-- 6. Credits -->
+  <footer class="credits">
     <div class="wrap">
-      <p>Ilia Mitrovski — ilia.mitrovski1@hm.edu</p>
+      <ul class="credits-list">
+        <li>Ilia Mitrovski</li>
+        <li>Fidelis Müller</li>
+        <li>Veronika Melnyk</li>
+        <li>Thees Grosch</li>
+        <li>Lanique Knus</li>
+      </ul>
     </div>
   </footer>
 </body>
