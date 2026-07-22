@@ -35,12 +35,23 @@
       color: var(--ink);
       font-family: var(--font-mono);
       font-size: 0.92rem;
+
+
       line-height: 1.55;
       letter-spacing: 0.02em;
     }
 
     h1, p, blockquote, dl, dd, dt {
       margin: 0;
+    }
+
+    p, li, .bar-label, .ledger-row {
+      text-wrap: pretty;
+      hyphens: auto;
+    }
+
+    blockquote {
+      text-wrap: balance;
     }
 
     /* The receipt */
@@ -88,6 +99,33 @@
       white-space: nowrap;
     }
 
+    .bar-row + .bar-row {
+      margin-top: 0.9rem;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .bar-track {
+      margin-top: 0.35rem;
+      height: 0.6rem;
+      border: 1px solid var(--ink);
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--ink);
+    }
+
+    body[data-rolle="nord"] .bar-nord .bar-fill,
+    body[data-rolle="sued"] .bar-sued .bar-fill {
+      background: var(--red);
+    }
+
     /* Role visibility: default = neutral (no JS, no/invalid param) */
     [data-nord],
     [data-sued] {
@@ -121,7 +159,13 @@
       margin-top: 1.1rem;
     }
 
-    /* 4. Zitat */
+    /* 2. Auflösung */
+    .odds-note {
+      margin-top: 1.1rem;
+      font-size: 0.78rem;
+    }
+
+    /* 3. Zitat */
     blockquote {
       font-size: 1.25rem;
       font-weight: 700;
@@ -136,31 +180,10 @@
       font-size: 0.8rem;
     }
 
-    /* 2. Konzepttext */
-    .concept p {
-      max-width: 20rem;
-    }
-
-    /* 3. Auflösung */
-    .odds-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-    }
-
-    .odds-line + .odds-line {
-      margin-top: 0.5rem;
-    }
-
-    .odds-note {
-      margin-top: 1.1rem;
-      font-size: 0.78rem;
-    }
-
-    /* 5. Abrechnung */
-    .ledger-item + .ledger-item {
-      margin-top: 1.1rem;
+    /* 4. Abrechnung */
+    .heading-sub {
+      margin-top: -0.75rem;
+      font-size: 0.68rem;
     }
 
     .ledger-row {
@@ -168,6 +191,7 @@
       justify-content: space-between;
       align-items: baseline;
       gap: 0.75rem;
+      margin-top: 1.25rem;
     }
 
     .ledger-row .label {
@@ -177,11 +201,6 @@
     .ledger-row .value {
       white-space: nowrap;
       text-align: right;
-    }
-
-    .ledger-row.sub {
-      margin-top: 0.15rem;
-      font-size: 0.82rem;
     }
 
     .ledger-note {
@@ -211,7 +230,11 @@
       gap: 0.75rem;
     }
 
-    /* 6. Fakten */
+    /* 5. Fakten */
+    #fakten {
+      padding-top: 4.5rem;
+    }
+
     .fact + .fact {
       margin-top: 1.5rem;
       padding-top: 1.5rem;
@@ -228,7 +251,7 @@
       font-size: 0.72rem;
     }
 
-    /* 7. Team */
+    /* 6. Team */
     #credits {
       padding-block: 2.25rem;
       border-top: 1px dashed var(--ink);
@@ -264,44 +287,48 @@
       <!-- 1. Einstieg -->
       <section class="intro-section" id="einstieg">
         <div class="wrap">
-          <p>Der Wohlstand des globalen Nordens beruht auf Arbeit, die anderswo geleistet wird. Rohstoffe, Kleidung, Elektronik, Nahrung – produziert zu Löhnen, die hier niemand annehmen würde, unter Bedingungen, die hier niemand akzeptieren würde.</p>
-          <p>Wir sind davon abhängig. Und wir profitieren davon, dass sie schlecht bezahlt ist.</p>
-          <p>Das ist kein Fehler im System. Es ist seine Voraussetzung.</p>
+          <p>Der Wohlstand des globalen Nordens beruht auf Arbeit, die anderswo geleistet wird. Rohstoffe, Kleidung, Elektronik, Nahrung – produziert zu Löhnen, die hier niemand annehmen würde, unter Bedingungen, die hier niemand akzeptieren&nbsp;würde.</p>
+          <p>Diese Arbeit verschwindet nicht. Sie wird nur verschoben weit genug weg, dass sie unsichtbar&nbsp;bleibt.</p>
+          <p>Wir sind davon abhängig. Die Privilegien, die wir täglich in Anspruch nehmen, bezahlen&nbsp;andere.</p>
+          <p>Das ist kein Fehler im System. Es ist seine&nbsp;<span class="framed">Voraussetzung</span>.</p>
         </div>
       </section>
 
-      <!-- 2. Konzepttext -->
-      <section class="concept" id="konzept">
-        <div class="wrap">
-          <p>Die interaktive Rauminstallation Birth Lottery beschäftigt sich mit Herkunft als Zufall. Ein Knopfdruck weist zu, der Rest folgt daraus. Sie fragt, wer für die Privilegien bezahlt, die wir täglich in Anspruch nehmen.</p>
-        </div>
-      </section>
-
-      <!-- 3. Auflösung der Lotterie -->
+      <!-- 2. Auflösung der Lotterie -->
       <section id="ergebnis">
         <div class="wrap">
+          <p class="heading">Gewinnchancen</p>
+
+          <div class="bar-row bar-nord">
+            <p class="bar-label"><span>Globaler Norden</span><span>15 %</span></p>
+            <div class="bar-track"><div class="bar-fill" style="width: 15%;"></div></div>
+          </div>
+          <div class="bar-row bar-sued">
+            <p class="bar-label"><span>Globaler Süden</span><span>85 %</span></p>
+            <div class="bar-track"><div class="bar-fill" style="width: 85%;"></div></div>
+          </div>
+
           <div data-nord>
-            <p class="odds-line"><span>Zuweisung</span><span class="framed">Globaler Norden</span></p>
-            <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="framed">### 15 % ###</span></p>
-            <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Norden lebt.</p>
-            <p class="fact-source">Verteilung nach gängiger Zuordnung, ca. 15 % / 85 %.</p>
+            <p class="ledger-total">
+              <span>Ihr Los</span><span class="framed">### Globaler Norden ###</span>
+            </p>
+            <p class="odds-note">Vergütung hochgerechnet aus dem deutschen Mindestlohn 2026: 13,90 € pro&nbsp;Stunde.</p>
           </div>
           <div data-sued>
-            <p class="odds-line"><span>Zuweisung</span><span class="framed">Globaler Süden</span></p>
-            <p class="odds-line"><span>Wahrscheinlichkeit</span><span class="framed">### 85 % ###</span></p>
-            <p class="odds-note">Diese Verteilung entspricht dem realen Anteil der Weltbevölkerung, der im globalen Süden lebt.</p>
-            <p class="fact-source">Verteilung nach gängiger Zuordnung, ca. 15 % / 85 %.</p>
+            <p class="ledger-total">
+              <span>Ihr Los</span><span class="framed">### Globaler Süden ###</span>
+            </p>
+            <p class="odds-note">Vergütung hochgerechnet aus dem Textil-Mindestlohn Bangladeschs: 0,50 € pro&nbsp;Stunde.</p>
           </div>
           <div data-neutral>
-            <p class="odds-line"><span>Globaler Norden</span><span class="framed">15 %</span></p>
-            <p class="odds-line"><span>Globaler Süden</span><span class="framed">85 %</span></p>
-            <p class="odds-note">Die Zuweisung erfolgt nach einer Wahrscheinlichkeit, die der realen weltweiten Bevölkerungsverteilung entspricht.</p>
-            <p class="fact-source">Verteilung nach gängiger Zuordnung, ca. 15 % / 85 %.</p>
+            <p class="odds-note">Die Vergütung an beiden Stationen ist aus realen Mindestlöhnen&nbsp;hochgerechnet.</p>
           </div>
+
+          <p class="fact-source">Verteilung nach gängiger Zuordnung.</p>
         </div>
       </section>
 
-      <!-- 4. Zitat -->
+      <!-- 3. Zitat -->
       <section id="zitat">
         <div class="wrap">
           <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
@@ -309,25 +336,28 @@
         </div>
       </section>
 
-      <!-- 5. Die Abrechnung -->
+      <!-- 4. Die Abrechnung -->
       <section id="abrechnung">
         <div class="wrap">
           <p class="heading">Die Abrechnung</p>
+          <p class="heading heading-sub">Vergütung pro Kiste</p>
 
-          <div class="ledger-item">
-            <p class="ledger-row"><span class="label">Deutschland, Mindestlohn 2026</span><span class="value">13,90 €/h</span></p>
-            <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">28 €</span></p>
+          <div class="bar-row bar-nord">
+            <p class="bar-label"><span>Globaler Norden</span><span>28 €</span></p>
+            <div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div>
+          </div>
+          <div class="bar-row bar-sued">
+            <p class="bar-label"><span>Globaler Süden</span><span>1 €</span></p>
+            <div class="bar-track"><div class="bar-fill" style="width: 3.6%;"></div></div>
           </div>
 
-          <div class="ledger-item">
-            <p class="ledger-row"><span class="label">Bangladesch, Textil-Mindestlohn</span><span class="value">0,50 €/h</span></p>
-            <p class="ledger-row sub"><span class="label">→ pro Kiste</span><span class="value">1 €</span></p>
-            <p class="ledger-note">(ca. 105 €/Monat bei ca. 208 Arbeitsstunden)</p>
-          </div>
+          <p class="ledger-row"><span class="label">Differenz pro Kiste</span><span class="value">27 €</span></p>
 
           <div class="ratio">
             <p class="framed">### 28 : 1 ###</p>
           </div>
+
+          <p class="ledger-note">Grundlage: Mindestlohn Deutschland 2026, 13,90 €/h. Textil-Mindestlohn Bangladesch, 0,50 €/h (ca. 105 €/Monat bei ca. 208&nbsp;Arbeitsstunden).</p>
 
           <div data-nord>
             <p class="ledger-total">
@@ -337,23 +367,25 @@
         </div>
       </section>
 
-      <!-- 6. Fakten -->
+      <!-- 5. Fakten -->
       <section id="fakten">
         <div class="wrap">
+          <p class="heading">Fakten</p>
+
           <article class="fact">
-            <p class="fact-line">Mindestlohn Textilindustrie Bangladesch: 12.500 Taka / Monat ≈ 105 €</p>
-            <p>Gefordert: 23.000 Taka</p>
-            <p class="fact-source">Kampagne für Saubere Kleidung, 2026</p>
+            <p class="fact-line">Mindestlohn Textilindustrie Bangladesch: 12.500 Taka / Monat ≈ 105&nbsp;€</p>
+            <p>Gefordert: 23.000&nbsp;Taka</p>
+            <p class="fact-source">Kampagne für Saubere Kleidung,&nbsp;2026</p>
           </article>
           <article class="fact">
-            <p class="fact-line">Lohnanteil am Verkaufspreis: 1–3 %</p>
-            <p>T-Shirt für 10 € → 10–30 Cent</p>
-            <p class="fact-source">Kampagne für Saubere Kleidung</p>
+            <p class="fact-line">Lohnanteil am Verkaufspreis: 1–3&nbsp;%</p>
+            <p>T-Shirt für 10 € → 10–30&nbsp;Cent</p>
+            <p class="fact-source">Kampagne für Saubere&nbsp;Kleidung</p>
           </article>
           <article class="fact">
-            <p class="fact-line">Leben alle wie Deutschland: 2,8 Erden</p>
-            <p>Erdüberlastungstag DE: 10. Mai 2026</p>
-            <p class="fact-source">Global Footprint Network / WWF, 2026</p>
+            <p class="fact-line">Würden alle leben wie in Deutschland: 2,8&nbsp;Erden</p>
+            <p>Erdüberlastungstag DE: 10. Mai&nbsp;2026</p>
+            <p class="fact-source">Global Footprint Network / WWF,&nbsp;2026</p>
           </article>
         </div>
       </section>
@@ -374,5 +406,16 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    window.goatcounter = {
+      path: function() {
+        var r = document.body.dataset.rolle || "neutral";
+        return "/scan/" + r;
+      }
+    };
+  </script>
+  <script data-goatcounter="https://DEINE-SUBDOMAIN.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
