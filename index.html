@@ -45,7 +45,7 @@
       margin: 0;
     }
 
-    p, li, .bar-label, .ledger-row {
+    p, li, .odds-line, .ledger-row {
       text-wrap: pretty;
       hyphens: auto;
     }
@@ -99,33 +99,6 @@
       white-space: nowrap;
     }
 
-    .bar-row + .bar-row {
-      margin-top: 0.9rem;
-    }
-
-    .bar-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.75rem;
-    }
-
-    .bar-track {
-      margin-top: 0.35rem;
-      height: 0.6rem;
-      border: 1px solid var(--ink);
-    }
-
-    .bar-fill {
-      height: 100%;
-      background: var(--ink);
-    }
-
-    body[data-rolle="nord"] .bar-nord .bar-fill,
-    body[data-rolle="sued"] .bar-sued .bar-fill {
-      background: var(--red);
-    }
-
     /* Role visibility: default = neutral (no JS, no/invalid param) */
     [data-nord],
     [data-sued] {
@@ -160,6 +133,17 @@
     }
 
     /* 2. Auflösung */
+    .odds-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .odds-line + .odds-line {
+      margin-top: 0.5rem;
+    }
+
     .odds-note {
       margin-top: 1.1rem;
       font-size: 0.78rem;
@@ -183,7 +167,26 @@
     /* 4. Abrechnung */
     .heading-sub {
       margin-top: -0.75rem;
-      font-size: 0.68rem;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.75rem;
+      font-weight: 400;
+    }
+
+    .heading-left {
+      text-align: left;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.75rem;
+      font-weight: 400;
+      margin-top: 2.25rem;
+      padding-top: 1.75rem;
+      border-top: 1px dashed var(--ink);
+      margin-bottom: 1.25rem;
+    }
+
+    .ledger-item + .ledger-item {
+      margin-top: 1.1rem;
     }
 
     .ledger-row {
@@ -191,7 +194,10 @@
       justify-content: space-between;
       align-items: baseline;
       gap: 0.75rem;
-      margin-top: 1.25rem;
+    }
+
+    .ledger-row + .ledger-row {
+      margin-top: 0.5rem;
     }
 
     .ledger-row .label {
@@ -201,6 +207,24 @@
     .ledger-row .value {
       white-space: nowrap;
       text-align: right;
+    }
+
+    .ledger-sub {
+      display: block;
+      margin-top: 0.15rem;
+      font-size: 0.82rem;
+    }
+
+    .ledger-diff {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px dashed var(--ink);
+    }
+
+    body[data-rolle="nord"] .kiste-nord .value,
+    body[data-rolle="sued"] .kiste-sued .value {
+      color: var(--red);
+      font-weight: 700;
     }
 
     .ledger-note {
@@ -297,16 +321,13 @@
       <!-- 2. Auflösung der Lotterie -->
       <section id="ergebnis">
         <div class="wrap">
-          <p class="heading">Gewinnchancen</p>
+          <p class="heading">Wo man geboren wird</p>
 
-          <div class="bar-row bar-nord">
-            <p class="bar-label"><span>Globaler Norden</span><span>15 %</span></p>
-            <div class="bar-track"><div class="bar-fill" style="width: 15%;"></div></div>
-          </div>
-          <div class="bar-row bar-sued">
-            <p class="bar-label"><span>Globaler Süden</span><span>85 %</span></p>
-            <div class="bar-track"><div class="bar-fill" style="width: 85%;"></div></div>
-          </div>
+          <p class="odds-line"><span>Globaler Norden</span><span class="framed">15 %</span></p>
+          <p class="odds-line"><span>Globaler Süden</span><span class="framed">85 %</span></p>
+
+          <p class="odds-note">Anteil der Weltbevölkerung. Der Buzzer dieser Installation folgt dieser&nbsp;Verteilung.</p>
+          <p class="fact-source">Verteilung nach gängiger Zuordnung.</p>
 
           <div data-nord>
             <p class="ledger-total">
@@ -323,8 +344,6 @@
           <div data-neutral>
             <p class="odds-note">Die Vergütung an beiden Stationen ist aus realen Mindestlöhnen&nbsp;hochgerechnet.</p>
           </div>
-
-          <p class="fact-source">Verteilung nach gängiger Zuordnung.</p>
         </div>
       </section>
 
@@ -340,24 +359,30 @@
       <section id="abrechnung">
         <div class="wrap">
           <p class="heading">Die Abrechnung</p>
-          <p class="heading heading-sub">Vergütung pro Kiste</p>
+          <p class="heading heading-sub">Für eine Stunde derselben Arbeit</p>
 
-          <div class="bar-row bar-nord">
-            <p class="bar-label"><span>Globaler Norden</span><span>28 €</span></p>
-            <div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div>
-          </div>
-          <div class="bar-row bar-sued">
-            <p class="bar-label"><span>Globaler Süden</span><span>1 €</span></p>
-            <div class="bar-track"><div class="bar-fill" style="width: 3.6%;"></div></div>
+          <div class="ledger-item">
+            <p class="ledger-row"><span class="label">Globaler Norden</span><span class="value">13,90 €</span></p>
+            <p class="ledger-sub">Mindestlohn Deutschland 2026</p>
           </div>
 
-          <p class="ledger-row"><span class="label">Differenz pro Kiste</span><span class="value">27 €</span></p>
+          <div class="ledger-item">
+            <p class="ledger-row"><span class="label">Globaler Süden</span><span class="value">0,50 €</span></p>
+            <p class="ledger-sub">Textil-Mindestlohn Bangladesch</p>
+          </div>
+
+          <p class="ledger-row ledger-diff"><span class="label">Differenz</span><span class="value">13,40 €</span></p>
 
           <div class="ratio">
             <p class="framed">### 28 : 1 ###</p>
           </div>
 
-          <p class="ledger-note">Grundlage: Mindestlohn Deutschland 2026, 13,90 €/h. Textil-Mindestlohn Bangladesch, 0,50 €/h (ca. 105 €/Monat bei ca. 208&nbsp;Arbeitsstunden).</p>
+          <p class="heading heading-left">Umgerechnet auf diese Installation</p>
+
+          <p class="ledger-row kiste-nord"><span class="label">Globaler Norden, pro Kiste</span><span class="value">28 €</span></p>
+          <p class="ledger-row kiste-sued"><span class="label">Globaler Süden, pro Kiste</span><span class="value">1 €</span></p>
+
+          <p class="ledger-note">Bangladesch: ca. 105 €/Monat bei ca. 208&nbsp;Arbeitsstunden.</p>
 
           <div data-nord>
             <p class="ledger-total">
