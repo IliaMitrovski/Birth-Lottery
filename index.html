@@ -56,10 +56,44 @@
 
     /* The receipt */
     .paper {
+      position: relative;
       width: min(100%, var(--content));
       margin-inline: auto;
       background: var(--paper);
       padding: 1.5rem 1.5rem 2.25rem;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      display: flex;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .lang-switch span {
+      color: var(--ink);
+    }
+
+    .lang-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      margin: 0;
+      font: inherit;
+      font-family: var(--font-mono);
+      color: var(--ink);
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    body[data-lang="de"] .lang-btn[data-lang-btn="de"],
+    body[data-lang="en"] .lang-btn[data-lang-btn="en"] {
+      color: var(--red);
+      font-weight: 700;
     }
 
     .wrap {
@@ -119,6 +153,40 @@
 
     body[data-rolle="sued"] [data-neutral] {
       display: none;
+    }
+
+    /* Language visibility: default = de (no JS, no/invalid param) */
+    [data-de] {
+      display: block;
+    }
+
+    [data-en] {
+      display: none;
+    }
+
+    body[data-lang="en"] [data-de] {
+      display: none;
+    }
+
+    body[data-lang="en"] [data-en] {
+      display: block;
+    }
+
+    span[data-de],
+    span[data-en] {
+      display: inline;
+    }
+
+    span[data-en] {
+      display: none;
+    }
+
+    body[data-lang="en"] span[data-de] {
+      display: none;
+    }
+
+    body[data-lang="en"] span[data-en] {
+      display: inline;
     }
 
     /* 1. Einstieg */
@@ -298,12 +366,38 @@
 <body>
   <script>
     (function () {
-      var rolle = new URLSearchParams(window.location.search).get("rolle");
+      var params = new URLSearchParams(window.location.search);
+
+      var rolle = params.get("rolle");
       document.body.dataset.rolle = (rolle === "nord" || rolle === "sued") ? rolle : "neutral";
+
+      var langParam = params.get("lang");
+      var lang = (langParam === "de" || langParam === "en")
+        ? langParam
+        : (sessionStorage.getItem("lang") === "en" ? "en" : "de");
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang;
+      sessionStorage.setItem("lang", lang);
     })();
   </script>
 
   <div class="paper">
+    <div class="lang-switch">
+      <button type="button" class="lang-btn" data-lang-btn="de" aria-label="Seite auf Deutsch anzeigen">DE</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" class="lang-btn" data-lang-btn="en" aria-label="Show page in English">EN</button>
+    </div>
+    <script>
+      document.querySelectorAll("[data-lang-btn]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var lang = btn.dataset.langBtn;
+          document.body.dataset.lang = lang;
+          document.documentElement.lang = lang;
+          sessionStorage.setItem("lang", lang);
+        });
+      });
+    </script>
+
     <main id="main-content">
 
       <img class="logo" src="assets/logo.svg" alt="Birth Lottery">
@@ -311,33 +405,62 @@
       <!-- 1. Einstieg -->
       <section class="intro-section" id="einstieg">
         <div class="wrap">
-          <p>Der Wohlstand des globalen Nordens beruht auf Arbeit, die anderswo geleistet wird. Rohstoffe, Kleidung, Elektronik, Nahrung – produziert zu Löhnen, die hier niemand annehmen würde, unter Bedingungen, die hier niemand akzeptieren&nbsp;würde.</p>
-          <p>Diese Arbeit verschwindet nicht. Sie wird nur verschoben weit genug weg, dass sie unsichtbar&nbsp;bleibt.</p>
-          <p>Wir sind davon abhängig. Die Privilegien, die wir täglich in Anspruch nehmen, bezahlen&nbsp;andere.</p>
-          <p>Das ist kein Fehler im System. Es ist seine&nbsp;<span class="framed">Voraussetzung</span>.</p>
+          <div data-de>
+            <p>Der Wohlstand des globalen Nordens beruht auf Arbeit, die anderswo geleistet wird. Rohstoffe, Kleidung, Elektronik, Nahrung – produziert zu Löhnen, die hier niemand annehmen würde, unter Bedingungen, die hier niemand akzeptieren&nbsp;würde.</p>
+            <p>Diese Arbeit verschwindet nicht. Sie wird nur verschoben weit genug weg, dass sie unsichtbar&nbsp;bleibt.</p>
+            <p>Wir sind davon abhängig. Die Privilegien, die wir täglich in Anspruch nehmen, bezahlen&nbsp;andere.</p>
+            <p>Das ist kein Fehler im System. Es ist seine&nbsp;<span class="framed">Voraussetzung</span>.</p>
+          </div>
+          <div data-en>
+            <p>[EN placeholder]</p>
+            <p>[EN placeholder]</p>
+            <p>[EN placeholder]</p>
+            <p>[EN placeholder] <span class="framed">[EN]</span>.</p>
+          </div>
         </div>
       </section>
 
       <!-- 2. Auflösung der Lotterie -->
       <section id="ergebnis">
         <div class="wrap">
-          <p class="heading">Wo man geboren wird</p>
-
-          <p class="odds-line"><span>Globaler Norden</span><span class="framed">15 %</span></p>
-          <p class="odds-line"><span>Globaler Süden</span><span class="framed">85 %</span></p>
-
-          <p class="odds-note">Anteil der Weltbevölkerung. In dieser Installation entscheidet ein Buzzer, und beide Lose sind gleich wahrscheinlich. In der Realität&nbsp;nicht.</p>
-          <p class="fact-source">Verteilung nach gängiger Zuordnung.</p>
+          <div data-de>
+            <p class="heading">Wo man geboren wird</p>
+            <p class="odds-line"><span>Globaler Norden</span><span class="framed">15 %</span></p>
+            <p class="odds-line"><span>Globaler Süden</span><span class="framed">85 %</span></p>
+            <p class="odds-note">Anteil der Weltbevölkerung. In dieser Installation entscheidet ein Buzzer, und beide Lose sind gleich wahrscheinlich. In der Realität&nbsp;nicht.</p>
+            <p class="fact-source">Verteilung nach gängiger Zuordnung.</p>
+          </div>
+          <div data-en>
+            <p class="heading">[EN placeholder]</p>
+            <p class="odds-line"><span>[EN] Global North</span><span class="framed">15 %</span></p>
+            <p class="odds-line"><span>[EN] Global South</span><span class="framed">85 %</span></p>
+            <p class="odds-note">[EN placeholder]</p>
+            <p class="fact-source">[EN placeholder]</p>
+          </div>
 
           <div data-nord>
-            <p class="ledger-total">
-              <span>Ihr Los</span><span class="framed">### Globaler Norden ###</span>
-            </p>
+            <div data-de>
+              <p class="ledger-total">
+                <span>Ihr Los</span><span class="framed">### Globaler Norden ###</span>
+              </p>
+            </div>
+            <div data-en>
+              <p class="ledger-total">
+                <span>[EN placeholder]</span><span class="framed">### [EN] Global North ###</span>
+              </p>
+            </div>
           </div>
           <div data-sued>
-            <p class="ledger-total">
-              <span>Ihr Los</span><span class="framed">### Globaler Süden ###</span>
-            </p>
+            <div data-de>
+              <p class="ledger-total">
+                <span>Ihr Los</span><span class="framed">### Globaler Süden ###</span>
+              </p>
+            </div>
+            <div data-en>
+              <p class="ledger-total">
+                <span>[EN placeholder]</span><span class="framed">### [EN] Global South ###</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -345,44 +468,81 @@
       <!-- 3. Zitat -->
       <section id="zitat">
         <div class="wrap">
-          <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
-          <cite>— Stephan Lessenich</cite>
+          <div data-de>
+            <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
+            <cite>— Stephan Lessenich</cite>
+          </div>
+          <div data-en>
+            <blockquote>[EN placeholder]</blockquote>
+            <cite>— Stephan Lessenich</cite>
+          </div>
         </div>
       </section>
 
       <!-- 4. Die Abrechnung -->
       <section id="abrechnung">
         <div class="wrap">
-          <p class="heading">Die Abrechnung</p>
-          <p class="heading heading-sub">Für eine Stunde Arbeit</p>
+          <div data-de>
+            <p class="heading">Die Abrechnung</p>
+            <p class="heading heading-sub">Für eine Stunde Arbeit</p>
 
-          <div class="ledger-item">
-            <p class="ledger-row"><span class="label">Globaler Norden</span><span class="value">13,90 €</span></p>
-            <p class="ledger-sub">Mindestlohn Deutschland 2026</p>
+            <div class="ledger-item">
+              <p class="ledger-row"><span class="label">Globaler Norden</span><span class="value">13,90 €</span></p>
+              <p class="ledger-sub">Mindestlohn Deutschland 2026</p>
+            </div>
+
+            <div class="ledger-item">
+              <p class="ledger-row"><span class="label">Globaler Süden</span><span class="value">0,50 €</span></p>
+              <p class="ledger-sub">Textil-Mindestlohn Bangladesch</p>
+            </div>
+
+            <p class="ledger-row ledger-diff"><span class="label">Differenz</span><span class="value">13,40 €</span></p>
           </div>
+          <div data-en>
+            <p class="heading">[EN placeholder]</p>
+            <p class="heading heading-sub">[EN placeholder]</p>
 
-          <div class="ledger-item">
-            <p class="ledger-row"><span class="label">Globaler Süden</span><span class="value">0,50 €</span></p>
-            <p class="ledger-sub">Textil-Mindestlohn Bangladesch</p>
+            <div class="ledger-item">
+              <p class="ledger-row"><span class="label">[EN] Global North</span><span class="value">13,90 €</span></p>
+              <p class="ledger-sub">[EN placeholder]</p>
+            </div>
+
+            <div class="ledger-item">
+              <p class="ledger-row"><span class="label">[EN] Global South</span><span class="value">0,50 €</span></p>
+              <p class="ledger-sub">[EN placeholder]</p>
+            </div>
+
+            <p class="ledger-row ledger-diff"><span class="label">[EN] Difference</span><span class="value">13,40 €</span></p>
           </div>
-
-          <p class="ledger-row ledger-diff"><span class="label">Differenz</span><span class="value">13,40 €</span></p>
 
           <div class="ratio">
             <p class="framed">### 28 : 1 ###</p>
           </div>
 
-          <p class="heading heading-left">Umgerechnet auf diese Installation</p>
-
-          <p class="ledger-row kiste-nord"><span class="label">Globaler Norden, pro Kiste</span><span class="value">28 €</span></p>
-          <p class="ledger-row kiste-sued"><span class="label">Globaler Süden, pro Kiste</span><span class="value">1 €</span></p>
-
-          <p class="ledger-note">Bangladesch: ca. 105 €/Monat bei ca. 208&nbsp;Arbeitsstunden.</p>
+          <div data-de>
+            <p class="heading heading-left">Umgerechnet auf diese Installation</p>
+            <p class="ledger-row kiste-nord"><span class="label">Globaler Norden, pro Kiste</span><span class="value">28 €</span></p>
+            <p class="ledger-row kiste-sued"><span class="label">Globaler Süden, pro Kiste</span><span class="value">1 €</span></p>
+            <p class="ledger-note">Bangladesch: ca. 105 €/Monat bei ca. 208&nbsp;Arbeitsstunden.</p>
+          </div>
+          <div data-en>
+            <p class="heading heading-left">[EN placeholder]</p>
+            <p class="ledger-row kiste-nord"><span class="label">[EN] Global North, per crate</span><span class="value">28 €</span></p>
+            <p class="ledger-row kiste-sued"><span class="label">[EN] Global South, per crate</span><span class="value">1 €</span></p>
+            <p class="ledger-note">[EN placeholder]</p>
+          </div>
 
           <div data-nord>
-            <p class="ledger-total">
-              <span>Von Ihnen getragener Aufpreis</span><span class="framed">### 0,00 € ###</span>
-            </p>
+            <div data-de>
+              <p class="ledger-total">
+                <span>Von Ihnen getragener Aufpreis</span><span class="framed">### 0,00 € ###</span>
+              </p>
+            </div>
+            <div data-en>
+              <p class="ledger-total">
+                <span>[EN placeholder]</span><span class="framed">### 0,00 € ###</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -390,23 +550,44 @@
       <!-- 5. Fakten -->
       <section id="fakten">
         <div class="wrap">
-          <p class="heading">Fakten</p>
+          <div data-de>
+            <p class="heading">Fakten</p>
 
-          <article class="fact">
-            <p class="fact-line">Mindestlohn Textilindustrie Bangladesch: 12.500 Taka / Monat ≈ 105&nbsp;€</p>
-            <p>Gefordert: 23.000&nbsp;Taka</p>
-            <p class="fact-source">Kampagne für Saubere Kleidung,&nbsp;2026</p>
-          </article>
-          <article class="fact">
-            <p class="fact-line">Lohnanteil am Verkaufspreis: 1–3&nbsp;%</p>
-            <p>T-Shirt für 10 € → 10–30&nbsp;Cent</p>
-            <p class="fact-source">Kampagne für Saubere&nbsp;Kleidung</p>
-          </article>
-          <article class="fact">
-            <p class="fact-line">Würden alle leben wie in Deutschland: 2,8&nbsp;Erden</p>
-            <p>Erdüberlastungstag DE: 10. Mai&nbsp;2026</p>
-            <p class="fact-source">Global Footprint Network / WWF,&nbsp;2026</p>
-          </article>
+            <article class="fact">
+              <p class="fact-line">Mindestlohn Textilindustrie Bangladesch: 12.500 Taka / Monat ≈ 105&nbsp;€</p>
+              <p>Gefordert: 23.000&nbsp;Taka</p>
+              <p class="fact-source">Kampagne für Saubere Kleidung,&nbsp;2026</p>
+            </article>
+            <article class="fact">
+              <p class="fact-line">Lohnanteil am Verkaufspreis: 1–3&nbsp;%</p>
+              <p>T-Shirt für 10 € → 10–30&nbsp;Cent</p>
+              <p class="fact-source">Kampagne für Saubere&nbsp;Kleidung</p>
+            </article>
+            <article class="fact">
+              <p class="fact-line">Würden alle leben wie in Deutschland: 2,8&nbsp;Erden</p>
+              <p>Erdüberlastungstag DE: 10. Mai&nbsp;2026</p>
+              <p class="fact-source">Global Footprint Network / WWF,&nbsp;2026</p>
+            </article>
+          </div>
+          <div data-en>
+            <p class="heading">[EN placeholder]</p>
+
+            <article class="fact">
+              <p class="fact-line">[EN placeholder]</p>
+              <p>[EN placeholder]</p>
+              <p class="fact-source">[EN placeholder]</p>
+            </article>
+            <article class="fact">
+              <p class="fact-line">[EN placeholder]</p>
+              <p>[EN placeholder]</p>
+              <p class="fact-source">[EN placeholder]</p>
+            </article>
+            <article class="fact">
+              <p class="fact-line">[EN placeholder]</p>
+              <p>[EN placeholder]</p>
+              <p class="fact-source">[EN placeholder]</p>
+            </article>
+          </div>
         </div>
       </section>
 
