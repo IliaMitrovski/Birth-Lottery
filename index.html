@@ -365,6 +365,19 @@
 
 <body>
   <script>
+    var BL_DESCRIPTION = {
+      de: "Birth Lottery — Abschluss einer interaktiven Rauminstallation über Herkunft als Zufall.",
+      en: "Birth Lottery — the closing page of an interactive installation about origin as chance."
+    };
+
+    function blApplyLang(lang) {
+      document.body.dataset.lang = lang;
+      document.documentElement.lang = lang;
+      sessionStorage.setItem("lang", lang);
+      var meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute("content", BL_DESCRIPTION[lang]);
+    }
+
     (function () {
       var params = new URLSearchParams(window.location.search);
 
@@ -375,9 +388,7 @@
       var lang = (langParam === "de" || langParam === "en")
         ? langParam
         : (sessionStorage.getItem("lang") === "en" ? "en" : "de");
-      document.body.dataset.lang = lang;
-      document.documentElement.lang = lang;
-      sessionStorage.setItem("lang", lang);
+      blApplyLang(lang);
     })();
   </script>
 
@@ -390,10 +401,7 @@
     <script>
       document.querySelectorAll("[data-lang-btn]").forEach(function (btn) {
         btn.addEventListener("click", function () {
-          var lang = btn.dataset.langBtn;
-          document.body.dataset.lang = lang;
-          document.documentElement.lang = lang;
-          sessionStorage.setItem("lang", lang);
+          blApplyLang(btn.dataset.langBtn);
         });
       });
     </script>
@@ -412,10 +420,10 @@
             <p>Das ist kein Fehler im System. Es ist seine&nbsp;<span class="framed">Voraussetzung</span>.</p>
           </div>
           <div data-en>
-            <p>[EN placeholder]</p>
-            <p>[EN placeholder]</p>
-            <p>[EN placeholder]</p>
-            <p>[EN placeholder] <span class="framed">[EN]</span>.</p>
+            <p>The wealth of the global North rests on work done somewhere else. Raw materials, clothing, electronics, food — produced for wages no one here would accept, under conditions no one here would&nbsp;tolerate.</p>
+            <p>This work does not disappear. It is only moved — far enough away to stay&nbsp;invisible.</p>
+            <p>We depend on it. The privileges we draw on every day are paid for by someone&nbsp;else.</p>
+            <p>This is not a flaw in the system. It is its&nbsp;<span class="framed">precondition</span>.</p>
           </div>
         </div>
       </section>
@@ -431,11 +439,11 @@
             <p class="fact-source">Verteilung nach gängiger Zuordnung.</p>
           </div>
           <div data-en>
-            <p class="heading">[EN placeholder]</p>
-            <p class="odds-line"><span>[EN] Global North</span><span class="framed">15 %</span></p>
-            <p class="odds-line"><span>[EN] Global South</span><span class="framed">85 %</span></p>
-            <p class="odds-note">[EN placeholder]</p>
-            <p class="fact-source">[EN placeholder]</p>
+            <p class="heading">Where you are born</p>
+            <p class="odds-line"><span>Global North</span><span class="framed">15 %</span></p>
+            <p class="odds-line"><span>Global South</span><span class="framed">85 %</span></p>
+            <p class="odds-note">Share of the world population. In this installation a buzzer decides, and both outcomes are equally likely. In reality they are&nbsp;not.</p>
+            <p class="fact-source">Distribution based on common&nbsp;classification.</p>
           </div>
 
           <div data-nord>
@@ -446,7 +454,7 @@
             </div>
             <div data-en>
               <p class="ledger-total">
-                <span>[EN placeholder]</span><span class="framed">### [EN] Global North ###</span>
+                <span>Your draw</span><span class="framed">### Global North ###</span>
               </p>
             </div>
           </div>
@@ -458,7 +466,7 @@
             </div>
             <div data-en>
               <p class="ledger-total">
-                <span>[EN placeholder]</span><span class="framed">### [EN] Global South ###</span>
+                <span>Your draw</span><span class="framed">### Global South ###</span>
               </p>
             </div>
           </div>
@@ -473,7 +481,7 @@
             <cite>— Stephan Lessenich</cite>
           </div>
           <div data-en>
-            <blockquote>[EN placeholder]</blockquote>
+            <blockquote>Elsewhere people die so that life here can go on as it always has.</blockquote>
             <cite>— Stephan Lessenich</cite>
           </div>
         </div>
@@ -499,20 +507,20 @@
             <p class="ledger-row ledger-diff"><span class="label">Differenz</span><span class="value">13,40 €</span></p>
           </div>
           <div data-en>
-            <p class="heading">[EN placeholder]</p>
-            <p class="heading heading-sub">[EN placeholder]</p>
+            <p class="heading">The Bill</p>
+            <p class="heading heading-sub">For one hour of work</p>
 
             <div class="ledger-item">
-              <p class="ledger-row"><span class="label">[EN] Global North</span><span class="value">13,90 €</span></p>
-              <p class="ledger-sub">[EN placeholder]</p>
+              <p class="ledger-row"><span class="label">Global North</span><span class="value">€13.90</span></p>
+              <p class="ledger-sub">Minimum wage, Germany&nbsp;2026</p>
             </div>
 
             <div class="ledger-item">
-              <p class="ledger-row"><span class="label">[EN] Global South</span><span class="value">0,50 €</span></p>
-              <p class="ledger-sub">[EN placeholder]</p>
+              <p class="ledger-row"><span class="label">Global South</span><span class="value">€0.50</span></p>
+              <p class="ledger-sub">Garment minimum wage,&nbsp;Bangladesh</p>
             </div>
 
-            <p class="ledger-row ledger-diff"><span class="label">[EN] Difference</span><span class="value">13,40 €</span></p>
+            <p class="ledger-row ledger-diff"><span class="label">Difference</span><span class="value">€13.40</span></p>
           </div>
 
           <div class="ratio">
@@ -526,10 +534,10 @@
             <p class="ledger-note">Bangladesch: ca. 105 €/Monat bei ca. 208&nbsp;Arbeitsstunden.</p>
           </div>
           <div data-en>
-            <p class="heading heading-left">[EN placeholder]</p>
-            <p class="ledger-row kiste-nord"><span class="label">[EN] Global North, per crate</span><span class="value">28 €</span></p>
-            <p class="ledger-row kiste-sued"><span class="label">[EN] Global South, per crate</span><span class="value">1 €</span></p>
-            <p class="ledger-note">[EN placeholder]</p>
+            <p class="heading heading-left">Converted for this installation</p>
+            <p class="ledger-row kiste-nord"><span class="label">Global North, per box</span><span class="value">€28</span></p>
+            <p class="ledger-row kiste-sued"><span class="label">Global South, per box</span><span class="value">€1</span></p>
+            <p class="ledger-note">Bangladesh: approx. €105/month over approx. 208 working&nbsp;hours.</p>
           </div>
 
           <div data-nord>
@@ -540,7 +548,7 @@
             </div>
             <div data-en>
               <p class="ledger-total">
-                <span>[EN placeholder]</span><span class="framed">### 0,00 € ###</span>
+                <span>Paid by you</span><span class="framed">### €0.00 ###</span>
               </p>
             </div>
           </div>
@@ -570,22 +578,22 @@
             </article>
           </div>
           <div data-en>
-            <p class="heading">[EN placeholder]</p>
+            <p class="heading">Facts</p>
 
             <article class="fact">
-              <p class="fact-line">[EN placeholder]</p>
-              <p>[EN placeholder]</p>
-              <p class="fact-source">[EN placeholder]</p>
+              <p class="fact-line">Minimum wage, garment industry Bangladesh: 12,500 taka/month ≈&nbsp;€105</p>
+              <p>Demanded: 23,000&nbsp;taka</p>
+              <p class="fact-source">Clean Clothes Campaign,&nbsp;2026</p>
             </article>
             <article class="fact">
-              <p class="fact-line">[EN placeholder]</p>
-              <p>[EN placeholder]</p>
-              <p class="fact-source">[EN placeholder]</p>
+              <p class="fact-line">Wages as a share of retail price: 1–3&nbsp;%</p>
+              <p>A €10 T-shirt → 10–30&nbsp;cents</p>
+              <p class="fact-source">Clean Clothes&nbsp;Campaign</p>
             </article>
             <article class="fact">
-              <p class="fact-line">[EN placeholder]</p>
-              <p>[EN placeholder]</p>
-              <p class="fact-source">[EN placeholder]</p>
+              <p class="fact-line">If everyone lived like Germany: 2.8&nbsp;Earths</p>
+              <p>German Overshoot Day: 10&nbsp;May&nbsp;2026</p>
+              <p class="fact-source">Global Footprint Network / WWF,&nbsp;2026</p>
             </article>
           </div>
         </div>
