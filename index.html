@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Birth Lottery — Abschluss einer interaktiven Rauminstallation über Herkunft als Zufall.">
-  <meta name="theme-color" content="#111111">
+  <meta name="theme-color" content="#f7f7f4">
   <title>Birth Lottery</title>
 
   <link rel="stylesheet" href="https://use.typekit.net/twp7thz.css">
@@ -31,7 +31,7 @@
     body {
       margin: 0;
       padding: 2.5rem 1rem;
-      background: var(--ink);
+      background: var(--paper);
       color: var(--ink);
       font-family: var(--font-mono);
       font-size: 0.92rem;
@@ -45,37 +45,10 @@
 
     /* The receipt */
     .paper {
-      position: relative;
       width: min(100%, var(--content));
       margin-inline: auto;
       background: var(--paper);
-      box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.45);
-      padding-block: 1.5rem;
-    }
-
-    .paper::before,
-    .paper::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 12px;
-      background-color: var(--paper);
-      background-image:
-        linear-gradient(135deg, var(--ink) 6px, transparent 6px),
-        linear-gradient(45deg, var(--ink) 6px, transparent 6px);
-      background-size: 12px 12px;
-      background-position: left top;
-      background-repeat: repeat-x;
-    }
-
-    .paper::before {
-      top: -1px;
-    }
-
-    .paper::after {
-      bottom: -1px;
-      transform: rotate(180deg);
+      padding: 1.5rem 1.5rem 2.25rem;
     }
 
     .wrap {
@@ -102,10 +75,10 @@
 
     .logo {
       display: block;
-      height: 2.75rem;
+      height: 5rem;
       width: auto;
-      max-width: 60%;
-      margin: 0 auto 1.5rem;
+      max-width: 85%;
+      margin: 0 auto 2rem;
       object-fit: contain;
     }
 
