@@ -110,13 +110,18 @@
       display: none;
     }
 
-    /* 1. Zitat */
-    .quote-section {
+    /* 1. Einstieg */
+    .intro-section {
       min-height: 85vh;
       display: flex;
       align-items: center;
     }
 
+    .intro-section p + p {
+      margin-top: 1.1rem;
+    }
+
+    /* 4. Zitat */
     blockquote {
       font-size: 1.25rem;
       font-weight: 700;
@@ -131,7 +136,12 @@
       font-size: 0.8rem;
     }
 
-    /* 2. Auflösung */
+    /* 2. Konzepttext */
+    .concept p {
+      max-width: 20rem;
+    }
+
+    /* 3. Auflösung */
     .odds-line {
       display: flex;
       justify-content: space-between;
@@ -148,12 +158,7 @@
       font-size: 0.78rem;
     }
 
-    /* 3. Konzepttext */
-    .concept p {
-      max-width: 20rem;
-    }
-
-    /* 4. Abrechnung */
+    /* 5. Abrechnung */
     .ledger-item + .ledger-item {
       margin-top: 1.1rem;
     }
@@ -206,7 +211,7 @@
       gap: 0.75rem;
     }
 
-    /* 5. Fakten */
+    /* 6. Fakten */
     .fact + .fact {
       margin-top: 1.5rem;
       padding-top: 1.5rem;
@@ -223,7 +228,7 @@
       font-size: 0.72rem;
     }
 
-    /* 6. Credits */
+    /* 7. Team */
     #credits {
       padding-block: 2.25rem;
       border-top: 1px dashed var(--ink);
@@ -256,15 +261,23 @@
 
       <img class="logo" src="assets/logo.svg" alt="Birth Lottery">
 
-      <!-- 1. Zitat -->
-      <section class="quote-section" id="zitat">
+      <!-- 1. Einstieg -->
+      <section class="intro-section" id="einstieg">
         <div class="wrap">
-          <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
-          <cite>— Stephan Lessenich</cite>
+          <p>Der Wohlstand des globalen Nordens beruht auf Arbeit, die anderswo geleistet wird. Rohstoffe, Kleidung, Elektronik, Nahrung – produziert zu Löhnen, die hier niemand annehmen würde, unter Bedingungen, die hier niemand akzeptieren würde.</p>
+          <p>Wir sind davon abhängig. Und wir profitieren davon, dass sie schlecht bezahlt ist.</p>
+          <p>Das ist kein Fehler im System. Es ist seine Voraussetzung.</p>
         </div>
       </section>
 
-      <!-- 2. Auflösung der Lotterie -->
+      <!-- 2. Konzepttext -->
+      <section class="concept" id="konzept">
+        <div class="wrap">
+          <p>Die interaktive Rauminstallation Birth Lottery beschäftigt sich mit Herkunft als Zufall. Ein Knopfdruck weist zu, der Rest folgt daraus. Sie fragt, wer für die Privilegien bezahlt, die wir täglich in Anspruch nehmen.</p>
+        </div>
+      </section>
+
+      <!-- 3. Auflösung der Lotterie -->
       <section id="ergebnis">
         <div class="wrap">
           <div data-nord>
@@ -288,14 +301,15 @@
         </div>
       </section>
 
-      <!-- 3. Konzepttext -->
-      <section class="concept" id="konzept">
+      <!-- 4. Zitat -->
+      <section id="zitat">
         <div class="wrap">
-          <p>Die interaktive Rauminstallation Birth Lottery beschäftigt sich mit Herkunft als Zufall. Ein Knopfdruck weist zu, der Rest folgt daraus. Sie fragt, wer für die Privilegien bezahlt, die wir täglich in Anspruch nehmen.</p>
+          <blockquote>Anderswo sterben die Leute, damit hier so gelebt werden kann, wie es seit Menschengedenken getan wird.</blockquote>
+          <cite>— Stephan Lessenich</cite>
         </div>
       </section>
 
-      <!-- 4. Die Abrechnung -->
+      <!-- 5. Die Abrechnung -->
       <section id="abrechnung">
         <div class="wrap">
           <p class="heading">Die Abrechnung</p>
@@ -323,7 +337,7 @@
         </div>
       </section>
 
-      <!-- 5. Fakten -->
+      <!-- 6. Fakten -->
       <section id="fakten">
         <div class="wrap">
           <article class="fact">
@@ -346,7 +360,7 @@
 
     </main>
 
-    <!-- 6. Credits -->
+    <!-- 7. Team -->
     <footer id="credits">
       <div class="wrap">
         <p class="heading">Team</p>
